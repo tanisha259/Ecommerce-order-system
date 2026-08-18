@@ -170,6 +170,8 @@ CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
+SWAGGER_USE_COMPAT_RENDERERS = False
+
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Bearer': {
@@ -182,5 +184,17 @@ SWAGGER_SETTINGS = {
     'SECURITY_REQUIREMENTS': [{
         'Bearer': []
     }]
+}
+
+# Redis Cache (with fallback to in-memory if Redis is not running)
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': os.getenv('REDIS_URL', 'redis://localhost:6379/1'),
+        'OPTIONS': {
+            'socket_connect_timeout': 2,
+            'socket_timeout': 2,
+        }
+    }
 }
 
