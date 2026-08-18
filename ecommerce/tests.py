@@ -83,7 +83,7 @@ class TestOrders:
         }
         response = api_client.post(url, data, format='json')
         assert response.status_code == status.HTTP_400_BAD_REQUEST
-        assert "Invalid quantity" in response.data['detail']
+        assert "Quantity must be greater than zero" in response.data['detail']
 
     def test_customer_sees_own_orders(self, api_client, customer_user, customer_user2, product1):
         Order.objects.create(user=customer_user, total_amount=10)
